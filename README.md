@@ -3,7 +3,7 @@ a useful package for handle your exception when you are developing a API
 ## :inbox_tray: Installation
 you can install this package via Composer:
 ```bash
-composer require hamidreza2005/laravel-api-error-handler
+composer require ffegu/laravel-api-error-handler
 ```
 and after installation you can run following command to publish config files
 ```bash
