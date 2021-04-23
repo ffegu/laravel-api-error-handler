@@ -15,6 +15,7 @@ trait ApiErrorHandler
         $handler = new $class($exception);
         $handler->handleStatusCode();
         $handler->handleMessage();
-        return Response::json(["error"=>$handler->getMessage()],$handler->getStatusCode(),["Content-Type"=>"application/json"]);
+        $response = isset($handler->getResponse()) ? $handler->getResponse() : "error"=>$handler->getMessage();
+        return Response::json($response,$handler->getStatusCode(),["Content-Type"=>"application/json"]);
     }
 }
