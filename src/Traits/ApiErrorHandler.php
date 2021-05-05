@@ -10,12 +10,15 @@ trait ApiErrorHandler
 {
     public function handleError($exception)
     {
-        $exceptions = config("api-error-handler") ?? [];
+       $exceptions = config("api-error-handler") ?? [];
         $class = array_key_exists(get_class($exception),$exceptions) ? $exceptions[get_class($exception)] : (config('app.debug') ? DefaultException::class : ServerInternalException::class );
         $handler = new $class($exception);
         $handler->handleStatusCode();
         $handler->handleMessage();
-        $response = isset($handler->getResponse()) ? $handler->getResponse() : "error"=>$handler->getMessage();
-        return Response::json($response,$handler->getStatusCode(),["Content-Type"=>"application/json"]);
+        return Response::json([
+            "success" => false,
+            "message" => $handler->getMessage(),
+            "errors"=> $exception
+        ],$handler->getStatusCode(),["Content-Type"=>"application/json"]);
     }
 }
